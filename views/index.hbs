@@ -1,0 +1,55 @@
+<div class="container-fluid">
+    <div class="row pt-3 bg-dark">
+        <div class="col-5">
+            <div class="row" id="cardlist">
+                {{#each maps}}
+                <div class="col-6 pb-3">
+                    <div class="card relativediv" style="border-radius: 12px;">
+                        <img style="width:235px;height:160px;border-radius:12px 12px 0px 0px;" src="{{this.cover}}"
+                            class="card-img-top border-top-radius:12px;" alt="...">
+                        <button type="button" class="btn btn-warning rounded-pill absolutediv" id="">{{this.price}}
+                        </button>
+                        <div class="card-body">
+                            <p style="font-size:13px;" class="card-text">{{this.name}}</p>
+                            <p class="card-text">{{this.address}}</p>
+                            <button style="font-size:13px;" type="button"
+                                class="btn btn-outline-secondary rounded-pill float-right" disabled data-toggle="button"
+                                aria-pressed="false" autocomplete="off">masuk</button>
+                            <button style="font-size:13px;" type="button"
+                                class="btn btn-outline-secondary rounded-pill float left" disabled data-toggle="button"
+                                aria-pressed="false" autocomplete="off">keluar</button>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        <div class="col-7">
+            <div id="mapid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--local my js-->
+<script>
+    //call a leaflet
+var mapOptions = {
+    center: [-6.3013753, 106.7387529, 17],
+    zoom: 16
+}
+
+var map = new L.map('mapid', mapOptions);
+
+var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+
+map.addLayer(layer);
+    {{#each maps}}
+    // Creating a marker
+    var marker = L.marker([{{this.longitude}}, {{this.latitude}}]);
+    // Adding popup to the marker
+    marker.bindPopup('<div class="card relativemap" style="border-radius: 12px;"> <img style="width:300px;height:200px; border-radius:12px 12px 0px 0px;" src="{{this.cover}}" class="card-img-top" alt="..."> <button type="button" class="btn btn-warning rounded-pill absolutemap" id="">{{this.price}}</button> <div class="card-body"> <p class="card-text">{{this.name}}</p> <p style="font-size:17px;" class="card-text">{{this.address}}</p> <button style="font-size:13px;" type="button" class="btn btn-outline-secondary rounded-pill float-right" disabled data-toggle="button" aria-pressed="false" autocomplete="off">masuk</button> <button style="font-size:13px;" type="button" class="btn btn-outline-secondary rounded-pill float-left" disabled data-toggle="button" aria-pressed="false" autocomplete="off">keluar</button> </div> </div>').openPopup();
+    // Adding marker to the map
+    marker.addTo(map);
+    {{/each}}
+</script>
